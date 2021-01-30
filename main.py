@@ -4,22 +4,20 @@ import callback
 from misc import bot
 from telebot import types
 from flask import Flask, request
-from flask_sslify import SSLify
 from settings.config import TOKEN, WEBHOOK_HOST
 
 app = Flask(__name__)
-sslify = SSLify(app)
 
 
-@app.route('/{}'.format(TOKEN), methods=['post'])
+@app.route('/' + TOKEN, methods=['POST'])
 def index():
     bot.process_new_updates([types.Update.de_json(request.stream.read().decode('utf-8'))])
     return "ok", 200
 
-@app.route("/")
+@app.route('/')
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url=WEBHOOK_HOST.format(TOKEN))
+    bot.set_webhook(url=WEBHOOK_HOST + TOKEN)
     return "ok", 200
 
 
