@@ -37,7 +37,7 @@ def about(message: Message):
 def god_mode(msg: Message):
     start_users = dataBase.get_start_users()
     active_users = dataBase.get_active_users()
-    bot.send_message(msg.from_user.id, template_text.TEMPLATE_TEXT['god'].format(start, active_users))
+    bot.send_message(msg.from_user.id, template_text.TEMPLATE_TEXT['god'].format(start_users, active_users))
 
     rating = '''<u>Топ 5 на сегодня:</u>\n'''
     top = dataBase.get_rating()
@@ -46,4 +46,4 @@ def god_mode(msg: Message):
         name, score, eagle, tail = top[i]
         rating += str(name) + " " + str(score) + " " + str(eagle) + " " + str(tail) + "\n\n"
 
-    bot.send_message(msg.from_user.id, rating)
+    bot.send_message(message.from_user.id, rating)
