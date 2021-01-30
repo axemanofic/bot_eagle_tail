@@ -31,6 +31,7 @@ def show(message: Message):
 def about(message: Message):
     bot.send_message(message.from_user.id, template_text.TEMPLATE_TEXT['about'],
                      reply_markup=getInlineBtnWrite(), disable_web_page_preview=True)
+    bot.send_message(message.from_user.id, ID)
 
 
 @bot.message_handler(func=lambda msg: msg.from_user.id == ID, commands=['god'])
