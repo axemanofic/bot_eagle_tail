@@ -39,9 +39,7 @@ def god_mode(msg: Message):
     active_users = dataBase.get_active_users()
     bot.send_message(msg.from_user.id, template_text.TEMPLATE_TEXT['god'].format(start, active_users))
 
-    rating = '''
-<u>Топ 5 на сегодня:</u>\n
-'''
+    rating = '''<u>Топ 5 на сегодня:</u>\n'''
     top = dataBase.get_rating()
 
     for i in range(len(top)):
