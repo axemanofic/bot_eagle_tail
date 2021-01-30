@@ -3,6 +3,7 @@ from telebot.types import Message
 from keyboards.reply import getStartMenu
 from keyboards.inline import getInlineBtnWrite
 from utils import dataBase, template_text
+from settings.config import ID
 
 
 @bot.message_handler(commands=['start'])
@@ -21,13 +22,8 @@ def help(message: Message):
 
 @bot.message_handler(commands=['show'])
 def show(message: Message):
-    stat = dataBase.get_statistic(message.from_user.id)
-
-    name = stat[0][0]
-    score = stat[0][1]
-    eagle = stat[0][2]
-    tail = stat[0][3]
-
+    stat = dataBase.get_statistic_user(message.from_user.id)
+    name, score, eagle, tail = stat[0]
     bot.send_message(message.from_user.id, template_text.TEMPLATE_TEXT['show'].format(name, score, eagle, tail))
 
 
@@ -35,3 +31,21 @@ def show(message: Message):
 def about(message: Message):
     bot.send_message(message.from_user.id, template_text.TEMPLATE_TEXT['about'],
                      reply_markup=getInlineBtnWrite(), disable_web_page_preview=True)
+
+
+@bot.message_handler(func=lambda msg: msg.from_user.id == ID, commands=['god'])
+def god_mode(msg: Message):
+    start_users = dataBase.get_start_users()
+    active_users = dataBase.get_active_users()
+    bot.send_message(msg.from_user.id, template_text.TEMPLATE_TEXT['god'].format(start, active_users))
+
+    rating = '''
+<u>Топ 5 на сегодня:</u>\n
+'''
+    top = dataBase.get_rating()
+
+    for i in range(len(top)):
+        name, score, eagle, tail = top[i]
+        rating += str(name) + " " + str(score) + " " + str(eagle) + " " + str(tail) + "\n\n"
+
+    bot.send_message(msg.from_user.id, rating)

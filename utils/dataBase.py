@@ -81,8 +81,9 @@ def update_score(id, result, cursor=None):
     finally:
         return response
 
+
 @connection_db
-def get_statistic(id, cursor=None):
+def get_statistic_user(id, cursor=None):
     result = None
     try:
         cursor.execute(
@@ -96,10 +97,54 @@ def get_statistic(id, cursor=None):
                 statistic, users
             WHERE
                 users.id = ?
-            ''', (id,))
+            ''',
+            (id,)
+        )
         result = cursor.fetchall()
     except Exception as e:
         result = False
         print(e)
     finally:
         return result
+
+
+@connection_db
+def get_rating(cursor=None):
+    result = None
+    try:
+        cursor.execute(
+            '''
+            SELECT 
+                users.name,
+                statistic.score,
+                statistic.eagle,
+                statistic.tail
+            FROM
+                statistic, users
+            WHERE
+                users.id = statistic.id
+                    AND
+                statistic.score >= 10
+            ORDER BY 
+                statistic.score DESC
+            LIMIT 5
+            '''
+        )
+        result = cursor.fetchall()
+    except Exception as e:
+        result = False
+        print(e)
+    finally:
+        return result
+
+@connection_db
+def get_active_users(cursor=None):
+    active = 0
+    try:
+        cursor.execute('SELECT COUNT(*) FROM statistic WHERE statistic.score > 10')
+        active = cursor.fetchone()[0]
+    except Exception as e:
+        active = False
+        print(e)
+    finally:
+        return active

@@ -6,6 +6,7 @@ from telebot import types
 from flask import Flask, request
 from settings.config import TOKEN, WEBHOOK_HOST
 
+
 app = Flask(__name__)
 
 
