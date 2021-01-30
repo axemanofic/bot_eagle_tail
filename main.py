@@ -19,7 +19,7 @@ def index():
 @app.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url=WEBHOOK_HOST + TOKEN)
+    bot.set_webhook(url=WEBHOOK_HOST.format(TOKEN))
     return "ok", 200
 
 
