@@ -38,6 +38,5 @@ def about(message: Message):
 def god_mode(msg: Message):
     start_users = dataBase.get_start_users()
     active_users = dataBase.get_active_users()
-    bot.send_message(msg.from_user.id, template_text.TEMPLATE_TEXT['god'].format(start_users, active_users))
     rating = getRatingInfo()
-    bot.send_message(message.from_user.id, rating)
+    bot.send_message(msg.from_user.id, template_text.TEMPLATE_TEXT['god'].format(start_users, active_users) + rating)

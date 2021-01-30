@@ -23,7 +23,7 @@ def loopTossing(message: Message, delay):
 
       
 def getRatingInfo():
-    rating = "<u>Топ 5 на сегодня:</u>\n"
+    rating = "\n<u>Топ 5 на сегодня:</u>\n"
     top = dataBase.get_rating()
     for i in range(len(top)):
         name, score, eagle, tail = top[i]
