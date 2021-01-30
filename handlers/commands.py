@@ -31,16 +31,16 @@ def show(message: Message):
 def about(message: Message):
     bot.send_message(message.from_user.id, template_text.TEMPLATE_TEXT['about'],
                      reply_markup=getInlineBtnWrite(), disable_web_page_preview=True)
-    bot.send_message(message.from_user.id, ID)
 
 
 @bot.message_handler(commands=['god'])
-def god_mode(message: Message):
+def god(message: Message):
+    bot.send_message(message.from_user.id, ID)
     if message.from_user.id == ID:
         start_users = dataBase.get_start_users()
         active_users = dataBase.get_active_users()
         bot.send_message(message.from_user.id, template_text.TEMPLATE_TEXT['god'].format(start, active_users))
-
+        
     rating = '''<u>Топ 5 на сегодня:</u>\n'''
     top = dataBase.get_rating()
 
