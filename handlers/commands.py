@@ -4,6 +4,7 @@ from keyboards.reply import getStartMenu
 from keyboards.inline import getInlineBtnWrite
 from utils import dataBase, template_text
 from settings.config import ID
+from utils.functions import getRatingInfo
 
 
 @bot.message_handler(commands=['start'])
@@ -38,12 +39,5 @@ def god_mode(msg: Message):
     start_users = dataBase.get_start_users()
     active_users = dataBase.get_active_users()
     bot.send_message(msg.from_user.id, template_text.TEMPLATE_TEXT['god'].format(start_users, active_users))
-
-    rating = '''<u>Топ 5 на сегодня:</u>\n'''
-    top = dataBase.get_rating()
-
-    for i in range(len(top)):
-        name, score, eagle, tail = top[i]
-        rating += str(name) + " " + str(score) + " " + str(eagle) + " " + str(tail) + "\n\n"
-
+    rating = getRatingInfo()
     bot.send_message(message.from_user.id, rating)
